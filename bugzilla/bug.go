@@ -7,7 +7,6 @@ import "time"
 
 type Bug struct {
 	Id             int       `xmlrpc:"id"`
-	Url            string    `xmlrpc:"url"`
 	Summary        string    `xmlrpc:"summary"`
 	Status         string    `xmlrpc:"status"`
 	CreationTime   time.Time `xmlrpc:"creation_time"`

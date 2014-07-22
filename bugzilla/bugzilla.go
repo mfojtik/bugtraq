@@ -6,10 +6,6 @@ import (
 	"github.com/kolo/xmlrpc"
 )
 
-var Bugzillas = map[string]string{
-	"redhat": "https://bugzilla.redhat.com/xmlrpc.cgi",
-}
-
 type Bugzilla struct {
 	User     string
 	Password string
@@ -32,8 +28,8 @@ func NewClient(user, password, service string) Bugzilla {
 	return client
 }
 
-func (b *Bugzilla) Connect(bugzilla string) (err error) {
-	b.client, err = xmlrpc.NewClient(Bugzillas[bugzilla], nil)
+func (b *Bugzilla) Connect(provider string) (err error) {
+	b.client, err = xmlrpc.NewClient(provider, nil)
 	if b.User != "" && b.Password != "" {
 		user := User{}
 		err = b.client.Call("User.login", RpcHash{
@@ -45,7 +41,7 @@ func (b *Bugzilla) Connect(bugzilla string) (err error) {
 	return
 }
 
-func (b *Bugzilla) SavedSearch(name string) (result BugsResult, err error) {
+func (b *Bugzilla) GetList(name string) (result BugsResult, err error) {
 	err = b.client.Call("Bug.search", RpcHash{"savedsearch": name}, &result)
 	return
 }
